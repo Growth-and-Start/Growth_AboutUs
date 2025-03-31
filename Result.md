@@ -30,10 +30,10 @@
 # Project-Design & Implementation
 | 항목 | 내용 |
 |:---  |---  |
-| (1) 요구사항 정의 | *프로젝트를 완성하기 위해 필요한 요구사항을 설명하기에 가장 적합한 방법을 선택하여 기술* <br> 예) <br> - 기능별 상세 요구사항(또는 유스케이스) <br> - 설계 모델(클래스 다이어그램, 클래스 및 모듈 명세서) <br> - UI 분석/설계 모델 <br> - E-R 다이어그램/DB 설계 모델(테이블 구조) |
-| (2) 전체 시스템 구성 | *프로젝트를 위하여, SW 전체 시스템의 구조를 보인다. (가능하다면, 사용자도 포함) <br> 주요 SW 모듈을 보이고, 각각의 역할을 기술한다. <br>만약, 오픈소스 혹은 외부 모듈을 사용한다면 이또한 기술한다.* |
+| (1) 요구사항 정의 | - 기능명세서</br>![title](https://tokenus-storage.s3.ap-northeast-2.amazonaws.com/videos/%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC%E1%84%86%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A6%E1%84%89%E1%85%A5.png)   </br>-ERD</br> ![title](https://tokenus-storage.s3.ap-northeast-2.amazonaws.com/videos/ERD.png)  |
+| (2) 전체 시스템 구성 | ![title](https://tokenus-storage.s3.ap-northeast-2.amazonaws.com/videos/system.png)  |
 | (3) 주요엔진 및 기능 설계 | *프로젝트의 주요 기능 혹은 모듈의 설계내용에 대하여 기술한다 <br> SW 구조 그림에 있는 각 Module의 상세 구현내용을 자세히 기술한다.* |
-| (4) 주요 기능의 구현 | *<주요기능리스트>에 정의된 기능 중 최소 2개 이상에 대한 상세 구현내용을 기술한다.* |
+| (4) 주요 기능의 구현 | **[1. 영상 NFT 발행 및 거래]**</br>- 영상을 업로드 하고, 유사도 검사를 통해 고유성이 검증되면, 영상 NFT를 발행한다.</br>- 크리에이터로부터 NFT의 name, symbol, price, quantity를 입력 받는다</br>- 이 정보를 바탕으로 Solidity 기반의 SmartContract를 지원하는 PolygonTestnet에 영상 NFT를 발행하는 트랜잭션을 보낸다.</br> - NFT 발행 스마트 컨트랙트는 Solidity언어 기반, Truffle 프레임워크 위에서 ERC-20 표준에 맞춰 작성되었고, Polygon Testnet에 배포되어있다.</br></br>**[2. 영상 유사도 검사]**</br> - 영상이 S3에 업로드 되면 그 S3 url이 EC2의 Docker 위에서 구동 중인 Flask 서버로 전송된다.</br>- Flask 서버는 S3 url을 통해 영상을 로컬에 다운로드 한다.</br>- OpenCV를 통해 프레임을 추출한다.</br> - ResNet-50을 활용하여 프레임의 특징 벡터를 추출한다.</br>- 추출한 특징 벡터를 FAISS에 저장된 기존 영상의 특징벡터들과 Cosine Similarity를 계산한다.</br>- 유사도 검사를 통과하면 FAISS에 특징 벡터를 저장하고, MySQL의 ML서버에 videoID와 함께 벡터 값을 저장한다.</br>- 해당 벡터 값은 후에 유사한 영상을 get 하는 함수에서 활용 된다.| |
 | (5) 기타 | *기타 사항을 기술*  |
 
 <br>
